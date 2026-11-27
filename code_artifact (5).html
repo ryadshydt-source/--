@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تعلّم | eLEARNING — نظام تعليم إلكتروني متكامل</title>
+
+    <!-- خطوط عربية واضحة وحديثة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- مكتبة Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        shellBg: '#DCE4EC',
+                        canvasBg: '#F8FAFC',
+                        inkDark: '#161922',
+                        inkMuted: '#64748B',
+                        pastelLavender: '#E6E1FF',
+                        pastelLavenderBorder: '#D4CDFC',
+                        pastelSky: '#DCF1FF',
+                        pastelSkyBorder: '#C1E4FC',
+                        pastelPink: '#FFE0F0',
+                        pastelPinkBorder: '#F9C4E0',
+                        pastelCream: '#FFF4D6',
+                        pastelCreamBorder: '#F7E1A8',
+                        brandEmerald: '#10B981',
+                        brandCoral: '#FF6B4A',
+                        brandIndigo: '#4F46E5',
+                    },
+                    boxShadow: {
+                        'shell': '0 24px 60px -18px rgba(15, 23, 42, 0.16)',
+                        'card-soft': '0 8px 24px -8px rgba(15, 23, 42, 0.06)',
+                        'card-hover': '0 16px 32px -10px rgba(15, 23, 42, 0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background-color: #DCE4EC;
+            color: #161922;
+            overflow-x: hidden;
+        }
+
+        .soft-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            box-shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .soft-card:hover {
+            box-shadow: 0 16px 32px -10px rgba(15, 23, 42, 0.11);
+        }
+
+        .nav-pill-active {
+            background-color: #161922;
+            color: #FFFFFF;
+            box-shadow: 0 8px 18px -6px rgba(22, 25, 34, 0.35);
+        }
+
+        /* شريط تمرير مخصص */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #EEF2F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brandIndigo selection:text-white p-2 sm:p-4 lg:p-6">
+
+    <!-- ==================== الإطار الرئيسي للتطبيق ==================== -->
+    <div class="max-w-[1440px] mx-auto bg-canvasBg rounded-[28px] sm:rounded-[34px] shadow-shell border border-white/80 overflow-hidden min-h-[88vh] flex flex-col">
+
+        <!-- ==================== شريط التنقل العلوي الموحد (8 صفحات / وجهات) ==================== -->
+        <header class="bg-white border-b border-slate-200/70 px-4 sm:px-6 lg:px-8 py-3.5 sticky top-0 z-30">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+
+                <!-- شعار المنصة -->
+                <button type="button" onclick="navigateTo('home')" class="flex items-center gap-2.5 text-right group">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brandEmerald via-teal-500 to-brandIndigo flex items-center justify-center text-white font-black text-lg shadow-sm group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-lg font-black text-inkDark">تعلّم</span>
+                            <span dir="ltr" class="text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-pastelLavender text-indigo-900">eLEARNING</span>
+                        </div>
+                        <span class="text-[11px] text-inkMuted font-semibold block">منصة تعليم إلكتروني متكاملة</span>
+                    </div>
+                </button>
+
+                <!-- أزرار التنقل بين الصفحات الـ 8 -->
+                <nav aria-label="صفحات المنصة" class="hidden xl:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/60">
+                    <button type="button" data-route="home" onclick="navigateTo('home')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-house"></i>
+                        <span>1. الرئيسية</span>
+                    </button>
+                    <button type="button" data-route="courses" onclick="navigateTo('courses')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>4. الدورات</span>
+                    </button>
+                    <button type="button" data-route="course-details" onclick="navigateTo('course-details')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>5. تفاصيل الدورة</span>
+                    </button>
+                    <button type="button" data-route="lesson-viewer" onclick="navigateTo('lesson-viewer')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-play-circle"></i>
+                        <span>6. مشاهدة الدروس</span>
+                    </button>
+                    <button type="button" data-route="dashboard" onclick="navigateTo('dashboard')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                        <span>7. لوحة التحكم</span>
+                    </button>
+                    <button type="button" data-route="progress" onclick="navigateTo('progress')" class="route-btn px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>8. التقدم الدراسي</span>
+                    </button>
+                </nav>
+
+                <!-- حالة الطالب وأزرار الدخول / إنشاء حساب / القائمة -->
+                <div class="flex items-center gap-2">
+                    <div id="headerAuthBadge" class="hidden sm:flex items-center gap-2 bg-pastelCream border border-pastelCreamBorder px-3 py-1.5 rounded-xl text-xs font-extrabold text-amber-950">
+                        <i class="fa-solid fa-user-check text-amber-700"></i>
+                        <span id="headerStudentName">سارة هيلتون</span>
+                    </div>
+
+                    <button type="button" data-route="login" onclick="navigateTo('login')" class="route-btn px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-inkDark text-xs font-extrabold transition-colors">
+                        2. دخول
+                    </button>
+                    <button type="button" data-route="register" onclick="navigateTo('register')" class="route-btn px-3 py-2 rounded-xl bg-inkDark hover:bg-slate-800 text-white text-xs font-extrabold transition-colors">
+                        3. إنشاء حساب
+                    </button>
+
+                    <button id="mobileNavBtn" type="button" aria-label="قائمة الصفحات" class="xl:hidden w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-inkDark flex items-center justify-center">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- قائمة التنقل للشاشات الأصغر من XL -->
+            <div id="mobileNavPanel" class="hidden xl:hidden mt-3 pt-3 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" onclick="navigateTo('home'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">1. الصفحة الرئيسية</button>
+                <button type="button" onclick="navigateTo('login'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">2. تسجيل الدخول</button>
+                <button type="button" onclick="navigateTo('register'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">3. إنشاء حساب</button>
+                <button type="button" onclick="navigateTo('courses'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">4. الدورات التعليمية</button>
+                <button type="button" onclick="navigateTo('course-details'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">5. تفاصيل الدورة</button>
+                <button type="button" onclick="navigateTo('lesson-viewer'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">6. مشاهدة الدروس</button>
+                <button type="button" onclick="navigateTo('dashboard'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">7. لوحة تحكم الطالب</button>
+                <button type="button" onclick="navigateTo('progress'); closeMobileNav();" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-pastelLavender text-xs font-extrabold text-right">8. التقدم الدراسي</button>
+            </div>
+        </header>
+
+        <!-- ==================== حاوية الصفحات الـ 8 ==================== -->
+        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 1. الصفحة الرئيسية (Home View)                               -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-home" class="app-view space-y-8">
+                <!-- بانر ترحيبي -->
+                <div class="rounded-3xl bg-gradient-to-l from-pastelLavender via-white to-pastelSky border border-pastelLavenderBorder/70 p-6 sm:p-10 shadow-card-soft grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white text-inkDark text-xs font-extrabold shadow-2xs">
+                            <i class="fa-solid fa-sparkles text-brandIndigo"></i>
+                            <span>تعلّم بمرونة • تتبّع تقدّمك خطوة بخطوة</span>
+                        </span>
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-inkDark leading-tight">
+                            طوّر مهاراتك الرقمية والمهنية عبر <span class="text-brandIndigo">دورات عملية</span> ودروس تفاعلية
+                        </h1>
+                        <p class="text-sm sm:text-base text-inkMuted leading-relaxed max-w-2xl">
+                            منصة تعليمية مصممة لمتابعة رحلتك الدراسية بوضوح: استعرض الدورات، انتقل بين الدروس، سجّل إتمامك لكل درس، وراقب نسبة تقدمك الفعلي في كل مسار.
+                        </p>
+                        <div class="pt-2 flex flex-wrap items-center gap-3">
+                            <button type="button" onclick="navigateTo('courses')" class="px-6 py-3.5 rounded-2xl bg-inkDark hover:bg-slate-800 text-white font-extrabold text-sm shadow-md transition-all flex items-center gap-2">
+                                <span>استعرض الدورات التعليمية</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                            <button type="button" onclick="navigateTo('dashboard')" class="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-inkDark border border-slate-200 font-extrabold text-sm transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-table-cells-large text-brandIndigo"></i>
+                                <span>لوحة تحكم الطالب</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- بطاقات إحصائية سريعة -->
+                    <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                        <div class="rounded-2xl bg-pastelLavender border border-pastelLavenderBorder p-5">
+                            <div class="text-xs font-extrabold text-indigo-950/75">الدورات المتاحة</div>
+                            <div id="homeCoursesCount" class="text-3xl font-black text-inkDark mt-1">6</div>
+                            <div class="text-[11px] font-bold text-indigo-900/70 mt-1">مسارات متنوعة</div>
+                        </div>
+                        <div class="rounded-2xl bg-pastelSky border border-pastelSkyBorder p-5">
+                            <div class="text-xs font-extrabold text-sky-950/75">إجمالي الدروس</div>
+                            <div id="homeLessonsCount" class="text-3xl font-black text-inkDark mt-1">24</div>
+                            <div class="text-[11px] font-bold text-sky-900/70 mt-1">دروس تطبيقية</div>
+                        </div>
+                        <div class="rounded-2xl bg-pastelPink border border-pastelPinkBorder p-5">
+                            <div class="text-xs font-extrabold text-pink-950/75">الدروس المكتملة</div>
+                            <div id="homeCompletedCount" class="text-3xl font-black text-inkDark mt-1">0</div>
+                            <div class="text-[11px] font-bold text-pink-900/70 mt-1">محفوظة تلقائياً</div>
+                        </div>
+                        <div class="rounded-2xl bg-pastelCream border border-pastelCreamBorder p-5">
+                            <div class="text-xs font-extrabold text-amber-950/75">متوسط التقدم</div>
+                            <div id="homeAvgProgress" class="text-3xl font-black text-inkDark mt-1">0%</div>
+                            <div class="text-[11px] font-bold text-amber-900/70 mt-1">عبر الدورات النشطة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الدورات المميزة -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-black text-inkDark">الدورات المميزة</h2>
+                            <p class="text-xs sm:text-sm text-inkMuted">ابدأ مباشرة بأكثر الدورات طلباً وتفاعلاً على المنصة</p>
+                        </div>
+                        <button type="button" onclick="navigateTo('courses')" class="text-xs sm:text-sm font-extrabold text-brandIndigo hover:underline">
+                            عرض جميع الدورات ←
+                        </button>
+                    </div>
+                    <div id="featuredCoursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- يتم توليدها ديناميكياً -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 2. صفحة تسجيل الدخول (Login View)                             -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-login" class="app-view hidden">
+                <div class="max-w-lg mx-auto soft-card rounded-3xl p-6 sm:p-9 space-y-6">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-3 py-1 rounded-full bg-pastelLavender text-indigo-950 text-xs font-extrabold">2. صفحة تسجيل الدخول</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-inkDark">مرحباً بعودتك إلى تعلّم</h2>
+                        <p class="text-xs sm:text-sm text-inkMuted">سجّل دخولك لمتابعة دروسك وتقدمك الدراسي وحفظ مهامك</p>
+                    </div>
+
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label for="loginEmail" class="block text-xs font-extrabold text-inkDark mb-1.5">البريد الإلكتروني</label>
+                            <input id="loginEmail" type="email" required placeholder="zara@elearning.edu" dir="ltr"
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                        </div>
+                        <div>
+                            <label for="loginPassword" class="block text-xs font-extrabold text-inkDark mb-1.5">كلمة المرور</label>
+                            <input id="loginPassword" type="password" required placeholder="••••••••" dir="ltr"
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                        </div>
+                        <button type="submit" class="w-full py-3.5 rounded-2xl bg-inkDark hover:bg-slate-800 text-white font-extrabold text-sm shadow-md transition-all">
+                            تسجيل الدخول
+                        </button>
+                    </form>
+
+                    <!-- دخول تجريبي فوري بحساب الطالب الافتراضي -->
+                    <div class="pt-4 border-t border-slate-200/80 space-y-3">
+                        <button type="button" onclick="loginDemoStudent()" class="w-full py-3 rounded-2xl bg-pastelSky hover:bg-sky-200/70 text-sky-950 border border-pastelSkyBorder font-extrabold text-xs sm:text-sm transition-colors flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>دخول سريع بحساب الطالب التجريبي (سارة هيلتون / Zara)</span>
+                        </button>
+                        <p class="text-center text-xs text-inkMuted font-semibold">
+                            ليس لديك حساب؟
+                            <button type="button" onclick="navigateTo('register')" class="text-brandIndigo font-extrabold hover:underline">أنشئ حساباً جديداً الآن</button>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 3. صفحة إنشاء حساب (Register View)                            -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-register" class="app-view hidden">
+                <div class="max-w-xl mx-auto soft-card rounded-3xl p-6 sm:p-9 space-y-6">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-3 py-1 rounded-full bg-pastelSky text-sky-950 text-xs font-extrabold">3. صفحة إنشاء حساب</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-inkDark">إنشاء حساب طالب جديد</h2>
+                        <p class="text-xs sm:text-sm text-inkMuted">ابدأ رحلتك التعليمية واحفظ تقدمك في كل دورة ودرس تلقائياً</p>
+                    </div>
+
+                    <form id="registerForm" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="regName" class="block text-xs font-extrabold text-inkDark mb-1.5">الاسم الكامل *</label>
+                                <input id="regName" type="text" required placeholder="مثال: سارة هيلتون"
+                                       class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                            </div>
+                            <div>
+                                <label for="regTrack" class="block text-xs font-extrabold text-inkDark mb-1.5">المسار الدراسي *</label>
+                                <select id="regTrack" class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-inkDark focus:outline-none focus:border-brandIndigo">
+                                    <option value="تصميم وتجربة المستخدم">تصميم وتجربة المستخدم (UI/UX)</option>
+                                    <option value="تطوير الويب">تطوير الويب والواجهات</option>
+                                    <option value="البرمجة والبيانات">البرمجة وتحليل البيانات</option>
+                                    <option value="إدارة الأعمال">إدارة الأعمال والمنتجات</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="regEmail" class="block text-xs font-extrabold text-inkDark mb-1.5">البريد الإلكتروني *</label>
+                            <input id="regEmail" type="email" required placeholder="student@example.com" dir="ltr"
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                        </div>
+
+                        <div>
+                            <label for="regPassword" class="block text-xs font-extrabold text-inkDark mb-1.5">كلمة المرور *</label>
+                            <input id="regPassword" type="password" required minlength="4" placeholder="أدخل كلمة مرور قوية" dir="ltr"
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-2xl bg-brandIndigo hover:bg-indigo-700 text-white font-extrabold text-sm shadow-md transition-all">
+                            إنشاء الحساب والانتقال للوحة التحكم
+                        </button>
+                    </form>
+
+                    <p class="text-center text-xs text-inkMuted font-semibold">
+                        لديك حساب بالفعل؟
+                        <button type="button" onclick="navigateTo('login')" class="text-brandIndigo font-extrabold hover:underline">تسجيل الدخول</button>
+                    </p>
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 4. صفحة الدورات التعليمية (Courses Catalog View)               -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-courses" class="app-view hidden space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/70 shadow-card-soft">
+                    <div>
+                        <span class="text-xs font-extrabold text-brandIndigo">4. صفحة الدورات التعليمية</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-inkDark mt-0.5">دليل الدورات والتصنيفات</h2>
+                    </div>
+
+                    <!-- بحث فوري في الدورات -->
+                    <div class="relative w-full lg:w-80">
+                        <input id="coursesSearchInput" type="text" placeholder="ابحث عن دورة أو مدرب أو مهارة..."
+                               class="w-full pr-10 pl-4 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                        <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-inkMuted text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- أزرار التصنيفات -->
+                <div id="courseCategoryTabs" class="flex items-center gap-2 overflow-x-auto pb-1">
+                    <!-- يتم توليدها ديناميكياً -->
+                </div>
+
+                <!-- شبكة الدورات -->
+                <div id="coursesCatalogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- يتم توليدها ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 5. صفحة تفاصيل الدورة (Course Details View)                    -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-course-details" class="app-view hidden space-y-6">
+                <div id="courseDetailsContainer">
+                    <!-- يتم توليدها ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 6. صفحة مشاهدة الدروس (Lesson Viewer View)                    -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-lesson-viewer" class="app-view hidden space-y-6">
+                <div id="lessonViewerContainer">
+                    <!-- يتم توليدها ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 7. لوحة تحكم الطالب (Student Dashboard View - مستوحاة من الصورة) -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-dashboard" class="app-view hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- القائمة الجانبية اليمنى (مطابقة للعمود الجانبي في الصورة) -->
+                    <aside class="lg:col-span-2 bg-white rounded-3xl p-4 border border-slate-200/70 shadow-card-soft space-y-5">
+                        <div class="flex items-center gap-2 px-2">
+                            <span class="w-7 h-7 rounded-xl bg-brandEmerald text-white flex items-center justify-center font-black text-xs">e</span>
+                            <span dir="ltr" class="font-extrabold text-sm text-inkDark">eLEARNING</span>
+                        </div>
+
+                        <div class="space-y-1">
+                            <button type="button" onclick="navigateTo('dashboard')" class="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-inkDark text-white text-xs font-extrabold">
+                                <i class="fa-solid fa-table-cells-large"></i>
+                                <span>نظرة عامة</span>
+                            </button>
+                            <button type="button" onclick="navigateTo('courses')" class="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-inkMuted hover:bg-slate-100 hover:text-inkDark text-xs font-bold transition-colors">
+                                <i class="fa-solid fa-book"></i>
+                                <span>الدورات</span>
+                            </button>
+                            <button type="button" onclick="navigateTo('lesson-viewer')" class="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-inkMuted hover:bg-slate-100 hover:text-inkDark text-xs font-bold transition-colors">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                                <span>الدروس</span>
+                            </button>
+                            <button type="button" onclick="navigateTo('progress')" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-inkMuted hover:bg-slate-100 hover:text-inkDark text-xs font-bold transition-colors">
+                                <span class="flex items-center gap-2.5"><i class="fa-solid fa-chart-simple"></i><span>التقدم</span></span>
+                                <span class="px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-black">NEW</span>
+                            </button>
+                        </div>
+
+                        <!-- بطاقة الترقية للباقة المميزة (Go to Premium) -->
+                        <div class="rounded-2xl bg-pastelSky border border-pastelSkyBorder p-4 text-center space-y-2.5">
+                            <div class="w-10 h-10 rounded-2xl bg-white text-amber-500 flex items-center justify-center text-lg mx-auto shadow-2xs">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <h4 class="text-xs font-black text-inkDark">الترقية للباقة المميزة!</h4>
+                            <p class="text-[11px] text-inkMuted leading-snug">احصل على شهادات معتمدة وملفات مشاريع كاملة.</p>
+                            <button type="button" onclick="showToast('تم تفعيل وضع المعاينة المميزة لحسابك بنجاح!')" class="w-full py-2 rounded-xl bg-inkDark hover:bg-slate-800 text-white text-xs font-extrabold transition-colors">
+                                ترقية الآن
+                            </button>
+                        </div>
+
+                        <button type="button" onclick="navigateTo('login')" class="w-full flex items-center gap-2 px-3.5 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-extrabold transition-colors">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>تسجيل الدخول / تبديل</span>
+                        </button>
+                    </aside>
+
+                    <!-- العمود الأوسط الرئيسي (الترحيب + بطاقات الباستيل + الساعات المستهلكة + الأداء + الدورات) -->
+                    <div class="lg:col-span-7 space-y-6">
+
+                        <!-- رأس الترحيب والبحث -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-black text-inkDark">
+                                    مرحباً <span id="dashStudentFirstName">سارة</span>! 👋
+                                </h2>
+                                <p class="text-xs sm:text-sm text-inkMuted">هيا نتعلّم شيئاً جديداً ومفيداً اليوم!</p>
+                            </div>
+                            <div class="relative w-full sm:w-64">
+                                <input id="dashSearchInput" type="text" placeholder="ابحث في دوراتك..."
+                                       oninput="syncDashSearch(this.value)"
+                                       class="w-full pr-9 pl-3.5 py-2.5 rounded-2xl bg-white border border-slate-200/80 text-xs font-bold text-inkDark focus:outline-none focus:border-brandIndigo shadow-2xs">
+                                <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-inkMuted text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 3 بطاقات إحصائية باستيل (الدروس، الساعات، الشهادات) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="rounded-3xl bg-pastelLavender border border-pastelLavenderBorder p-5 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white/80 text-indigo-700 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-book-open-reader"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-extrabold text-indigo-950/75">الدروس المكتملة</div>
+                                    <div id="dashCompletedLessons" class="text-2xl sm:text-3xl font-black text-inkDark">0</div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-3xl bg-pastelSky border border-pastelSkyBorder p-5 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white/80 text-sky-700 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-extrabold text-sky-950/75">الساعات الدراسية</div>
+                                    <div id="dashStudyHours" class="text-2xl sm:text-3xl font-black text-inkDark">142</div>
+                                </div>
+                            </div>
+
+                            <div class="rounded-3xl bg-pastelPink border border-pastelPinkBorder p-5 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white/80 text-pink-700 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-award"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-extrabold text-pink-950/75">الشهادات</div>
+                                    <div id="dashCertificatesCount" class="text-2xl sm:text-3xl font-black text-inkDark">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- صف الساعات المستهلكة (Hours Spent) ومؤشر الأداء (Performance) -->
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+
+                            <!-- مخطط الساعات المستهلكة -->
+                            <div class="md:col-span-7 soft-card rounded-3xl p-5 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-base font-black text-inkDark">الساعات المستهلكة</h3>
+                                    <span class="px-3 py-1 rounded-xl bg-slate-100 text-inkMuted text-xs font-extrabold">شهري</span>
+                                </div>
+                                <div id="hoursBarChart" class="h-44 flex items-end justify-between gap-2 pt-4 px-1 border-b border-slate-100 pb-2">
+                                    <!-- يتم توليد الأعمدة ديناميكياً -->
+                                </div>
+                            </div>
+
+                            <!-- مؤشر الأداء -->
+                            <div class="md:col-span-5 soft-card rounded-3xl p-5 flex flex-col justify-between">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-base font-black text-inkDark">الأداء</h3>
+                                    <span class="text-xs font-extrabold text-brandEmerald">ممتاز</span>
+                                </div>
+
+                                <div class="my-3 flex flex-col items-center justify-center">
+                                    <div class="w-40 h-24 relative overflow-hidden">
+                                        <div class="w-40 h-40 rounded-full border-[14px] border-slate-100 border-t-brandCoral border-r-amber-400"></div>
+                                    </div>
+                                    <div id="performanceScoreText" class="text-2xl font-black text-inkDark -mt-4">8.966</div>
+                                    <span class="text-xs font-bold text-inkMuted">نقاط الأداء التراكمية</span>
+                                </div>
+
+                                <div class="text-center text-xs font-bold text-inkMuted bg-slate-50 py-2 rounded-xl">
+                                    نسبة الإنجاز الكلية: <strong id="dashOverallPercent" class="text-brandIndigo">0%</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- قسم الدورات (الجارية والمكتملة) -->
+                        <div class="soft-card rounded-3xl p-5 sm:p-6 space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <h3 class="text-lg font-black text-inkDark">الدورات</h3>
+                                <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
+                                    <button type="button" id="dashTabOngoing" onclick="setDashCourseTab('ongoing')" class="px-3.5 py-1.5 rounded-lg bg-white text-inkDark text-xs font-extrabold shadow-2xs">
+                                        جارية
+                                    </button>
+                                    <button type="button" id="dashTabCompleted" onclick="setDashCourseTab('completed')" class="px-3.5 py-1.5 rounded-lg text-inkMuted text-xs font-bold">
+                                        مكتملة
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="dashCoursesList" class="space-y-3">
+                                <!-- يتم توليدها ديناميكياً -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- العمود الأيسر: الملف الشخصي والتقويم وقائمة المهام التفاعلية -->
+                    <aside class="lg:col-span-3 soft-card rounded-3xl p-5 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base font-black text-inkDark">الملف الشخصي</h3>
+                            <button type="button" onclick="navigateTo('register')" title="تعديل بيانات الطالب" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-pastelLavender text-inkDark flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
+
+                        <!-- بطاقة الطالب -->
+                        <div class="text-center space-y-2 pb-4 border-b border-slate-100">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=240&q=80"
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><rect width=%22160%22 height=%22160%22 rx=%2280%22 fill=%22%23E6E1FF%22/><text x=%2250%25%22 y=%2254%25%22 fill=%22%23161922%22 font-size=%2242%22 font-family=%22sans-serif%22 font-weight=%22bold%22 text-anchor=%22middle%22>SH</text></svg>';"
+                                 alt="صورة الطالب"
+                                 class="w-20 h-20 rounded-full object-cover mx-auto border-4 border-pastelLavender shadow-xs">
+                            <h4 id="dashProfileName" class="text-base font-black text-inkDark">سارة هيلتون</h4>
+                            <p id="dashProfileTrack" class="text-xs font-bold text-inkMuted">تصميم وتجربة المستخدم</p>
+                        </div>
+
+                        <!-- تقويم أسبوعي تفاعلي -->
+                        <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/60 space-y-2.5">
+                            <div class="flex items-center justify-between text-xs font-black text-inkDark">
+                                <span>نوفمبر 2026</span>
+                                <span class="text-brandIndigo">الأسبوع الحالي</span>
+                            </div>
+                            <div id="weeklyCalendarDays" class="grid grid-cols-7 gap-1 text-center text-[11px] font-bold">
+                                <!-- يتم توليدها ديناميكياً -->
+                            </div>
+                        </div>
+
+                        <!-- قائمة المهام التفاعلية (Task List) -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-sm font-black text-inkDark">قائمة المهام</h4>
+                                <span id="tasksDoneCount" class="text-[11px] font-extrabold text-brandEmerald">0/0</span>
+                            </div>
+
+                            <div class="flex gap-1.5">
+                                <input id="newTaskInput" type="text" placeholder="أضف مهمة دراسية..."
+                                       class="flex-1 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-inkDark focus:outline-none focus:border-brandIndigo">
+                                <button type="button" onclick="addStudentTask()" class="px-3 py-2 rounded-xl bg-inkDark text-white text-xs font-extrabold hover:bg-slate-800">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+
+                            <div id="studentTasksList" class="space-y-2 max-h-60 overflow-y-auto">
+                                <!-- يتم توليد المهام ديناميكياً -->
+                            </div>
+                        </div>
+                    </aside>
+
+                </div>
+            </section>
+
+            <!-- ------------------------------------------------------------ -->
+            <!-- 8. صفحة التقدم الدراسي (Study Progress View)                  -->
+            <!-- ------------------------------------------------------------ -->
+            <section id="view-progress" class="app-view hidden space-y-6">
+                <div class="soft-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-l from-white via-white to-pastelLavender/45">
+                    <div class="space-y-1.5">
+                        <span class="text-xs font-extrabold text-brandIndigo">8. صفحة التقدم الدراسي</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-inkDark">متابعة نسبة إكمال الدورات والدروس</h2>
+                        <p class="text-xs sm:text-sm text-inkMuted">يتم تحديث النسب المئوية تلقائياً عند تحديد أي درس كمكتمل في صفحة مشاهدة الدروس.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200/80 min-w-[210px] text-center">
+                        <span class="text-xs font-bold text-inkMuted block">التقدم الإجمالي عبر المنصة</span>
+                        <span id="progressPageOverallPct" class="text-3xl font-black text-brandIndigo">0%</span>
+                        <div class="w-full h-2.5 rounded-full bg-slate-100 mt-2 overflow-hidden">
+                            <div id="progressPageOverallBar" class="h-full rounded-full bg-brandEmerald transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="progressCoursesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- يتم توليد بطاقات تقدم الدورات ديناميكياً -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- تذييل المنصة -->
+        <footer class="bg-white border-t border-slate-200/70 px-6 py-4 text-xs text-inkMuted flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span class="font-bold text-inkDark">منصة تعلّم (eLEARNING) • HTML5 + CSS3 + JavaScript</span>
+            <span>حفظ محلي فوري عبر LocalStorage — جاهزة للربط مع Python / Flask / SQLite</span>
+        </footer>
+
+    </div>
+
+    <!-- إشعار منبثق -->
+    <div id="toastBanner" class="fixed bottom-5 left-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-inkDark text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs sm:text-sm font-bold">
+            <i class="fa-solid fa-circle-check text-brandEmerald"></i>
+            <span id="toastText"></span>
+        </div>
+    </div>
+
+    <!-- ==================== السكربت التفاعلي الكامل ==================== -->
+    <script>
+        const coursesData = [
+            {
+                id: "ux-ui",
+                title: "تصميم واجهات وتجربة المستخدم (UI/UX)",
+                category: "تصميم وتجربة المستخدم",
+                level: "مبتدئ إلى متوسط",
+                duration: "14 ساعة",
+                instructor: "أ. مريم العبدالله",
+                featured: true,
+                cardPastel: "bg-pastelCream border-pastelCreamBorder",
+                barColor: "bg-amber-400",
+                summary: "تعلّم مبادئ تجربة المستخدم، بناء الواجهات الحديثة، النماذج التفاعلية، وتحويل الأفكار إلى شاشات واضحة وسلسة.",
+                lessons: [
+                    { id: "ux-1", title: "الدرس 1: مقدمة في تجربة المستخدم (UX) وتصميم الواجهات", duration: "22 دقيقة", notes: "نتعرف في هذا الدرس على الفرق بين واجهة المستخدم وتجربة المستخدم وكيفية وضع احتياجات المتعلّم والمستخدم في قلب التصميم." },
+                    { id: "ux-2", title: "الدرس 2: هيكلة المعلومات وبناء التدفقات (User Flows)", duration: "28 دقيقة", notes: "كيفية رسم مسارات واضحة تقلل خطوات الوصول للمعلومة وتمنع تشتت المستخدم داخل المنصة أو التطبيق." },
+                    { id: "ux-3", title: "الدرس 3: الأنظمة اللونية والتباين والخطوط العربية", duration: "25 دقيقة", notes: "اختيار لوحات ألوان مريحة للعين، وضبط المقروئية في الواجهات العربية (RTL) مع تباعد سطور متوازن." },
+                    { id: "ux-4", title: "الدرس 4: اختبار قابلية الاستخدام وتحسين الواجهة", duration: "30 دقيقة", notes: "خطوات عملية لاختبار النماذج مع المستخدمين الفعليين وتحويل الملاحظات إلى تحسينات ملموسة." }
+                ]
+            },
+            {
+                id: "web-dev",
+                title: "تطوير مواقع الويب الحديثة (HTML5, CSS3 & JS)",
+                category: "تطوير الويب",
+                level: "مبتدئ",
+                duration: "18 ساعة",
+                instructor: "م. طارق المنصور",
+                featured: true,
+                cardPastel: "bg-pastelSky border-pastelSkyBorder",
+                barColor: "bg-sky-500",
+                summary: "بناء مواقع ويب متجاوبة وتفاعلية من الصفر باستخدام HTML5 الدلالي، CSS3 الحديث، وجافاسكريبت لإدارة الحالة والتفاعل.",
+                lessons: [
+                    { id: "web-1", title: "الدرس 1: بنية الصفحة الدلالية في HTML5 ودعم RTL", duration: "24 دقيقة", notes: "تنظيم العناصر الدلالية في الصفحة وضبط اتجاه النصوص والنماذج والروابط بشكل صحيح." },
+                    { id: "web-2", title: "الدرس 2: التنسيق المتجاوب بـ Flexbox و Grid", duration: "32 دقيقة", notes: "بناء تخطيطات مرنة تتكيف بسلاسة مع شاشات الهاتف، الأجهزة اللوحية، والحواسيب دون تمدد أفقي." },
+                    { id: "web-3", title: "الدرس 3: التفاعل والبحث والفلترة بـ JavaScript", duration: "35 دقيقة", notes: "ربط الأحداث (Events) وتحديث واجهة المستخدم لحظياً عند البحث أو التصفية أو التنقل بين الصفحات." },
+                    { id: "web-4", title: "الدرس 4: حفظ البيانات في LocalStorage وتجهيز الـ API", duration: "27 دقيقة", notes: "تخزين بيانات المستخدم والتقدم الدراسي محلياً وتنظيم هيكل البيانات للربط لاحقاً مع واجهة خلفية مثل Flask." }
+                ]
+            },
+            {
+                id: "python-data",
+                title: "البرمجة بـ Python وبناء التطبيقات والبيانات",
+                category: "البرمجة والبيانات",
+                level: "متوسط",
+                duration: "20 ساعة",
+                instructor: "د. سامي الحسن",
+                featured: true,
+                cardPastel: "bg-pastelLavender border-pastelLavenderBorder",
+                barColor: "bg-indigo-500",
+                summary: "أتقن أساسيات بايثون العملية، التعامل مع البيانات والملفات، وبناء خدمات ويب وقواعد بيانات منظمة مثل SQLite.",
+                lessons: [
+                    { id: "py-1", title: "الدرس 1: أساسيات بايثون وهياكل البيانات العملية", duration: "26 دقيقة", notes: "العمل مع القوائم والقواميس والدوال لكتابة كود واضح وقابل لإعادة الاستخدام." },
+                    { id: "py-2", title: "الدرس 2: معالجة البيانات والملفات البرمجية", duration: "29 دقيقة", notes: "قراءة البيانات وتنظيفها وتصدير التقارير المنظمة بفعالية." },
+                    { id: "py-3", title: "الدرس 3: مقدمة في Flask وبناء نقاط الربط (API)", duration: "34 دقيقة", notes: "إنشاء مسارات خادم بسيطة لاستقبال طلبات الواجهة الأمامية وإرسال الاستجابات." },
+                    { id: "py-4", title: "الدرس 4: حفظ السجلات في قاعدة بيانات SQLite", duration: "31 دقيقة", notes: "تصميم جداول الطلاب والدورات والتقدم الدراسي وحفظها بشكل دائم." }
+                ]
+            },
+            {
+                id: "product-mgmt",
+                title: "إدارة المنتجات الرقمية وتخطيط المشاريع",
+                category: "إدارة الأعمال",
+                level: "متوسط",
+                duration: "11 ساعة",
+                instructor: "أ. ريم السالم",
+                featured: false,
+                cardPastel: "bg-pastelPink border-pastelPinkBorder",
+                barColor: "bg-pink-500",
+                summary: "تعلّم كيفية تقسيم المشاريع إلى وحدات واضحة، تحديد الأولويات، ومتابعة التقدم حتى تسليم منتج رقمي متكامل.",
+                lessons: [
+                    { id: "pm-1", title: "الدرس 1: تقسيم المشروع إلى وحدات قابلة للتنفيذ", duration: "20 دقيقة", notes: "تحويل المتطلبات العامة إلى وحدات واضحة ومهام محددة بأثر مباشر." },
+                    { id: "pm-2", title: "الدرس 2: مؤشرات التقدم وإدارة الأولويات", duration: "22 دقيقة", notes: "قياس نسبة الإنجاز الحقيقية والتركيز على الميزات الجوهرية أولاً." },
+                    { id: "pm-3", title: "الدرس 3: تحسين تجربة المستخدم بعد الإطلاق", duration: "25 دقيقة", notes: "جمع ملاحظات المستخدمين وتطوير النسخ القادمة بناءً على الاستخدام الفعلي." }
+                ]
+            },
+            {
+                id: "responsive-ui",
+                title: "تصميم لوحات التحكم والواجهات الحديثة",
+                category: "تصميم وتجربة المستخدم",
+                level: "متوسط",
+                duration: "12 ساعة",
+                instructor: "أ. مريم العبدالله",
+                featured: false,
+                cardPastel: "bg-pastelSky border-pastelSkyBorder",
+                barColor: "bg-teal-500",
+                summary: "تصميم لوحات تحكم سهلة القراءة تجمع بين بطاقات الإحصاء، المخططات البسيطة، وقوائم المهام التفاعلية.",
+                lessons: [
+                    { id: "ui-1", title: "الدرس 1: التسلسل البصري في لوحات المعلومات", duration: "21 دقيقة", notes: "إبراز الأرقام والمؤشرات المهمة دون إرهاق عين المتعلّم بالتفاصيل الزائدة." },
+                    { id: "ui-2", title: "الدرس 2: البطاقات والألوان الهادئة والمكونات", duration: "24 دقيقة", notes: "تناسق الحواف الدائرية والظلال الخفيفة وتباين النصوص عبر مختلف الشاشات." }
+                ]
+            },
+            {
+                id: "js-apps",
+                title: "بناء تطبيقات الويب التفاعلية بـ JavaScript",
+                category: "تطوير الويب",
+                level: "متوسط إلى متقدم",
+                duration: "16 ساعة",
+                instructor: "م. طارق المنصور",
+                featured: false,
+                cardPastel: "bg-pastelCream border-pastelCreamBorder",
+                barColor: "bg-orange-500",
+                summary: "تنظيم حالة التطبيق، إدارة التنقل بين الصفحات، وبناء تجارب مستخدم سريعة الاستجابة في المتصفح.",
+                lessons: [
+                    { id: "js-1", title: "الدرس 1: إدارة حالة التطبيق (State Management)", duration: "27 دقيقة", notes: "الاحتفاظ بحالة الصفحة النشطة والتقدم الدراسي والمهام في مصدر واحد منظم." },
+                    { id: "js-2", title: "الدرس 2: التنقل السلس وتحديث الواجهة ديناميكياً", duration: "26 دقيقة", notes: "تحديث العناصر المعروضة فوراً عند تغيير الفلاتر أو إتمام الدروس." }
+                ]
+            }
+        ];
+
+        const courseCategories = [
+            "الكل",
+            "تصميم وتجربة المستخدم",
+            "تطوير الويب",
+            "البرمجة والبيانات",
+            "إدارة الأعمال"
+        ];
+
+        const STORAGE_KEY = "taallam_elearning_state_v1";
+
+        const defaultState = {
+            currentRoute: "home",
+            student: {
+                name: "سارة هيلتون",
+                email: "zara@elearning.edu",
+                track: "تصميم وتجربة المستخدم"
+            },
+            selectedCourseId: "ux-ui",
+            selectedLessonId: "ux-1",
+            enrolledCourseIds: ["ux-ui", "web-dev", "python-data"],
+            completedLessonIds: ["ux-1", "ux-2", "web-1"],
+            courseSearch: "",
+            selectedCategory: "الكل",
+            dashCourseTab: "ongoing",
+            tasks: [
+                { id: "t1", title: "مراجعة أساسيات تجربة المستخدم UX", tag: "تصميم واجهات", done: true },
+                { id: "t2", title: "إكمال الدرس الثالث في تطوير الويب", tag: "تطوير الويب", done: false },
+                { id: "t3", title: "تطبيق تمرين هياكل البيانات في بايثون", tag: "البرمجة والبيانات", done: false }
+            ]
+        };
+
+        let appState = loadState();
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return JSON.parse(JSON.stringify(defaultState));
+                const parsed = JSON.parse(raw);
+                return {
+                    ...JSON.parse(JSON.stringify(defaultState)),
+                    ...parsed,
+                    student: { ...defaultState.student, ...(parsed.student || {}) }
+                };
+            } catch (_) {
+                return JSON.parse(JSON.stringify(defaultState));
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } catch (_) {}
+        }
+
+        function showToast(message) {
+            const banner = document.getElementById("toastBanner");
+            document.getElementById("toastText").textContent = message;
+            banner.classList.remove("translate-y-24", "opacity-0");
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => {
+                banner.classList.add("translate-y-24", "opacity-0");
+            }, 2800);
+        }
+
+        function closeMobileNav() {
+            document.getElementById("mobileNavPanel").classList.add("hidden");
+        }
+
+        // حساب تقدم دورة معينة بناءً على الدروس المكتملة
+        function getCourseProgress(course) {
+            const total = course.lessons.length || 1;
+            const completed = course.lessons.filter(l => appState.completedLessonIds.includes(l.id)).length;
+            const percent = Math.round((completed / total) * 100);
+            return { completed, total, percent };
+        }
+
+        function getOverallProgress() {
+            const allLessons = coursesData.flatMap(c => c.lessons);
+            const total = allLessons.length || 1;
+            const completed = allLessons.filter(l => appState.completedLessonIds.includes(l.id)).length;
+            return { completed, total, percent: Math.round((completed / total) * 100) };
+        }
+
+        // التنقل بين الصفحات الـ 8
+        function navigateTo(route) {
+            appState.currentRoute = route;
+            saveState();
+
+            document.querySelectorAll(".app-view").forEach(sec => sec.classList.add("hidden"));
+            const targetSec = document.getElementById(`view-${route}`);
+            if (targetSec) targetSec.classList.remove("hidden");
+
+            document.querySelectorAll(".route-btn").forEach(btn => {
+                const active = btn.dataset.route === route;
+                btn.classList.toggle("nav-pill-active", active);
+            });
+
+            renderCurrentRouteView();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function openCourseDetails(courseId) {
+            appState.selectedCourseId = courseId;
+            const course = coursesData.find(c => c.id === courseId) || coursesData[0];
+            if (!course.lessons.some(l => l.id === appState.selectedLessonId)) {
+                appState.selectedLessonId = course.lessons[0].id;
+            }
+            saveState();
+            navigateTo("course-details");
+        }
+
+        function openLesson(courseId, lessonId) {
+            appState.selectedCourseId = courseId;
+            const course = coursesData.find(c => c.id === courseId) || coursesData[0];
+            const validLesson = course.lessons.find(l => l.id === lessonId) || course.lessons[0];
+            appState.selectedLessonId = validLesson.id;
+            if (!appState.enrolledCourseIds.includes(course.id)) {
+                appState.enrolledCourseIds.push(course.id);
+            }
+            saveState();
+            navigateTo("lesson-viewer");
+        }
+
+        function enrollInCourse(courseId) {
+            if (!appState.enrolledCourseIds.includes(courseId)) {
+                appState.enrolledCourseIds.push(courseId);
+                saveState();
+                showToast("تم تسجيلك في الدورة بنجاح!");
+            }
+            renderCourseDetails();
+            renderCoursesCatalog();
+        }
+
+        function toggleLessonCompleted(lessonId) {
+            const idx = appState.completedLessonIds.indexOf(lessonId);
+            if (idx === -1) {
+                appState.completedLessonIds.push(lessonId);
+                showToast("تم تحديد الدرس كمكتمل وتحديث تقدمك الدراسي!");
+            } else {
+                appState.completedLessonIds.splice(idx, 1);
+                showToast("تم إلغاء تحديد الدرس كمكتمل");
+            }
+            saveState();
+            renderLessonViewer();
+            updateGlobalHeaderAndStats();
+        }
+
+        function updateGlobalHeaderAndStats() {
+            const firstName = (appState.student.name || "سارة").trim().split(/\s+/)[0];
+            document.getElementById("headerStudentName").textContent = appState.student.name;
+            document.getElementById("dashStudentFirstName").textContent = firstName;
+            document.getElementById("dashProfileName").textContent = appState.student.name;
+            document.getElementById("dashProfileTrack").textContent = appState.student.track;
+
+            const overall = getOverallProgress();
+            const totalLessonsAll = coursesData.reduce((sum, c) => sum + c.lessons.length, 0);
+            const completedCoursesCount = coursesData.filter(c => getCourseProgress(c).percent === 100).length;
+
+            document.getElementById("homeCoursesCount").textContent = String(coursesData.length);
+            document.getElementById("homeLessonsCount").textContent = String(totalLessonsAll);
+            document.getElementById("homeCompletedCount").textContent = String(overall.completed);
+            document.getElementById("homeAvgProgress").textContent = `${overall.percent}%`;
+
+            document.getElementById("dashCompletedLessons").textContent = String(overall.completed);
+            document.getElementById("dashStudyHours").textContent = String(142 + overall.completed * 2);
+            document.getElementById("dashCertificatesCount").textContent = String(completedCoursesCount);
+            document.getElementById("dashOverallPercent").textContent = `${overall.percent}%`;
+
+            const scoreVal = (8.5 + (overall.percent / 100) * 1.4).toFixed(3);
+            document.getElementById("performanceScoreText").textContent = scoreVal;
+        }
+
+        // 1. عرض الصفحة الرئيسية
+        function renderHome() {
+            updateGlobalHeaderAndStats();
+            const featured = coursesData.filter(c => c.featured);
+            const grid = document.getElementById("featuredCoursesGrid");
+            grid.innerHTML = featured.map(course => {
+                const prog = getCourseProgress(course);
+                return `
+                    <div class="soft-card rounded-3xl p-5 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-3 py-1 rounded-xl ${course.cardPastel} text-inkDark text-xs font-extrabold">${course.category}</span>
+                                <span class="text-xs font-bold text-inkMuted"><i class="fa-regular fa-clock ml-1"></i>${course.duration}</span>
+                            </div>
+                            <h3 class="text-lg font-black text-inkDark leading-snug">${course.title}</h3>
+                            <p class="text-xs sm:text-sm text-inkMuted leading-relaxed">${course.summary}</p>
+                        </div>
+
+                        <div class="space-y-3 pt-3 border-t border-slate-100">
+                            <div>
+                                <div class="flex justify-between text-xs font-extrabold mb-1">
+                                    <span class="text-inkMuted">التقدم (${prog.completed}/${prog.total} دروس)</span>
+                                    <span class="text-inkDark">${prog.percent}%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full rounded-full ${course.barColor}" style="width: ${prog.percent}%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="openCourseDetails('${course.id}')" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-inkDark text-xs font-extrabold transition-colors">
+                                    تفاصيل الدورة
+                                </button>
+                                <button type="button" onclick="openLesson('${course.id}', '${course.lessons[0].id}')" class="flex-1 py-2.5 rounded-xl bg-inkDark hover:bg-slate-800 text-white text-xs font-extrabold transition-colors">
+                                    ابدأ الدرس
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // 4. عرض صفحة الدورات التعليمية مع البحث والفلترة
+        function renderCoursesCatalog() {
+            const tabsBar = document.getElementById("courseCategoryTabs");
+            tabsBar.innerHTML = courseCategories.map(cat => {
+                const active = appState.selectedCategory === cat;
+                return `
+                    <button type="button" onclick="selectCourseCategory('${cat}')"
+                            class="shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all ${
+                                active ? "bg-inkDark text-white shadow-xs" : "bg-white text-inkDark border border-slate-200 hover:bg-slate-50"
+                            }">
+                        ${cat}
+                    </button>
+                `;
+            }).join("");
+
+            const q = (appState.courseSearch || "").trim().toLowerCase();
+            const filtered = coursesData.filter(c => {
+                const catMatch = appState.selectedCategory === "الكل" || c.category === appState.selectedCategory;
+                if (!catMatch) return false;
+                if (!q) return true;
+                return [c.title, c.category, c.instructor, c.summary, c.level].join(" ").toLowerCase().includes(q);
+            });
+
+            const grid = document.getElementById("coursesCatalogGrid");
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full soft-card rounded-3xl p-10 text-center text-sm font-bold text-inkMuted">لا توجد دورات مطابقة لبحثك أو التصنيف المحدد.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(course => {
+                const prog = getCourseProgress(course);
+                const isEnrolled = appState.enrolledCourseIds.includes(course.id);
+                return `
+                    <div class="soft-card rounded-3xl p-5 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-3 py-1 rounded-xl ${course.cardPastel} text-inkDark text-xs font-extrabold">${course.category}</span>
+                                <span class="text-xs font-bold text-inkMuted">${course.level}</span>
+                            </div>
+                            <h3 class="text-lg font-black text-inkDark">${course.title}</h3>
+                            <p class="text-xs sm:text-sm text-inkMuted leading-relaxed">${course.summary}</p>
+                            <div class="text-xs font-bold text-inkMuted flex items-center justify-between pt-1">
+                                <span><i class="fa-solid fa-chalkboard-user ml-1 text-brandIndigo"></i>${course.instructor}</span>
+                                <span><i class="fa-solid fa-list-ol ml-1 text-brandEmerald"></i>${course.lessons.length} دروس</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 pt-3 border-t border-slate-100">
+                            <div>
+                                <div class="flex justify-between text-xs font-extrabold mb-1">
+                                    <span class="text-inkMuted">${isEnrolled ? "نسبة الإكمال" : "غير مسجل بعد"}</span>
+                                    <span class="text-inkDark">${prog.percent}%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full rounded-full ${course.barColor}" style="width: ${prog.percent}%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="openCourseDetails('${course.id}')" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-inkDark text-xs font-extrabold transition-colors">
+                                    التفاصيل
+                                </button>
+                                <button type="button" onclick="openLesson('${course.id}', '${course.lessons[0].id}')" class="flex-1 py-2.5 rounded-xl bg-inkDark hover:bg-slate-800 text-white text-xs font-extrabold transition-colors">
+                                    ${prog.percent > 0 ? "متابعة التعلم" : "ابدأ الآن"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function selectCourseCategory(cat) {
+            appState.selectedCategory = cat;
+            saveState();
+            renderCoursesCatalog();
+        }
+
+        // 5. عرض صفحة تفاصيل الدورة
+        function renderCourseDetails() {
+            const course = coursesData.find(c => c.id === appState.selectedCourseId) || coursesData[0];
+            const prog = getCourseProgress(course);
+            const isEnrolled = appState.enrolledCourseIds.includes(course.id);
+
+            const container = document.getElementById("courseDetailsContainer");
+            container.innerHTML = `
+                <div class="soft-card rounded-3xl p-6 sm:p-8 space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-3 py-1 rounded-xl ${course.cardPastel} text-inkDark text-xs font-extrabold">5. تفاصيل الدورة</span>
+                            <span class="px-3 py-1 rounded-xl bg-slate-100 text-inkDark text-xs font-extrabold">${course.category}</span>
+                            <span class="px-3 py-1 rounded-xl bg-slate-100 text-inkMuted text-xs font-bold">${course.level} • ${course.duration}</span>
+                        </div>
+                        <button type="button" onclick="navigateTo('courses')" class="text-xs font-extrabold text-brandIndigo hover:underline">
+                            ← العودة إلى الدورات
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        <div class="lg:col-span-8 space-y-4">
+                            <h2 class="text-2xl sm:text-3xl font-black text-inkDark">${course.title}</h2>
+                            <p class="text-sm sm:text-base text-inkMuted leading-relaxed">${course.summary}</p>
+                            <div class="text-xs sm:text-sm font-bold text-inkDark">
+                                <i class="fa-solid fa-chalkboard-user text-brandIndigo ml-1.5"></i>
+                                المدرّس: ${course.instructor}
+                            </div>
+
+                            <!-- قائمة دروس المنهج -->
+                            <div class="pt-4 space-y-2.5">
+                                <h3 class="text-base font-black text-inkDark">منهج الدورة (${course.lessons.length} دروس)</h3>
+                                ${course.lessons.map((lesson, index) => {
+                                    const done = appState.completedLessonIds.includes(lesson.id);
+                                    return `
+                                        <div onclick="openLesson('${course.id}', '${lesson.id}')" class="cursor-pointer p-4 rounded-2xl bg-slate-50 hover:bg-pastelLavender/40 border border-slate-200/70 flex items-center justify-between gap-3 transition-colors">
+                                            <div class="flex items-center gap-3">
+                                                <span class="w-7 h-7 rounded-xl ${done ? "bg-brandEmerald text-white" : "bg-white text-inkDark border border-slate-200"} flex items-center justify-center text-xs font-black">
+                                                    ${done ? '<i class="fa-solid fa-check"></i>' : (index + 1)}
+                                                </span>
+                                                <div>
+                                                    <div class="text-sm font-extrabold text-inkDark">${lesson.title}</div>
+                                                    <div class="text-xs text-inkMuted">${lesson.duration}</div>
+                                                </div>
+                                            </div>
+                                            <span class="text-xs font-extrabold text-brandIndigo">مشاهدة ←</span>
+                                        </div>
+                                    `;
+                                }).join("")}
+                            </div>
+                        </div>
+
+                        <!-- بطاقة التسجيل والتقدم -->
+                        <div class="lg:col-span-4 rounded-3xl ${course.cardPastel} p-6 space-y-4">
+                            <div class="text-xs font-extrabold text-inkDark/75">حالة التسجيل والتقدم</div>
+                            <div class="text-3xl font-black text-inkDark">${prog.percent}%</div>
+                            <p class="text-xs font-bold text-inkDark/80">أتممت ${prog.completed} من أصل ${prog.total} دروس</p>
+                            <div class="w-full h-2.5 rounded-full bg-white/80 overflow-hidden">
+                                <div class="h-full rounded-full ${course.barColor}" style="width: ${prog.percent}%"></div>
+                            </div>
+
+                            <div class="pt-2 space-y-2.5">
+                                ${!isEnrolled ? `
+                                    <button type="button" onclick="enrollInCourse('${course.id}')" class="w-full py-3 rounded-2xl bg-white hover:bg-slate-50 text-inkDark font-extrabold text-xs sm:text-sm shadow-2xs transition-colors">
+                                        تسجيل في الدورة
+                                    </button>
+                                ` : `
+                                    <div class="py-2 px-3 rounded-xl bg-white/75 text-emerald-800 text-xs font-extrabold text-center">
+                                        <i class="fa-solid fa-circle-check ml-1"></i> أنت مسجل في هذه الدورة
+                                    </div>
+                                `}
+                                <button type="button" onclick="openLesson('${course.id}', '${appState.selectedLessonId}')" class="w-full py-3 rounded-2xl bg-inkDark hover:bg-slate-800 text-white font-extrabold text-xs sm:text-sm shadow-md transition-colors">
+                                    ${prog.percent > 0 ? "متابعة مشاهدة الدروس" : "بدء أول درس"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 6. عرض صفحة مشاهدة الدروس والتنقل وتحديد الإكمال
+        function renderLessonViewer() {
+            const course = coursesData.find(c => c.id === appState.selectedCourseId) || coursesData[0];
+            const currentIndex = Math.max(0, course.lessons.findIndex(l => l.id === appState.selectedLessonId));
+            const lesson = course.lessons[currentIndex] || course.lessons[0];
+            appState.selectedLessonId = lesson.id;
+
+            const isCompleted = appState.completedLessonIds.includes(lesson.id);
+            const prog = getCourseProgress(course);
+            const prevLesson = currentIndex > 0 ? course.lessons[currentIndex - 1] : null;
+            const nextLesson = currentIndex < course.lessons.length - 1 ? course.lessons[currentIndex + 1] : null;
+
+            const container = document.getElementById("lessonViewerContainer");
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- مشغل الدرس والملاحظات (8 أعمدة) -->
+                    <div class="lg:col-span-8 soft-card rounded-3xl p-5 sm:p-7 space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="px-3 py-1 rounded-xl ${course.cardPastel} text-inkDark text-xs font-extrabold">6. صفحة مشاهدة الدروس</span>
+                            <button type="button" onclick="openCourseDetails('${course.id}')" class="text-xs font-extrabold text-brandIndigo hover:underline">
+                                تفاصيل الدورة (${course.title})
+                            </button>
+                        </div>
+
+                        <!-- منطقة عرض الدرس التفاعلية -->
+                        <div class="rounded-3xl bg-gradient-to-br from-inkDark via-slate-900 to-indigo-950 text-white p-6 sm:p-8 space-y-4 relative overflow-hidden">
+                            <div class="flex items-center justify-between text-xs text-slate-300 font-bold">
+                                <span><i class="fa-solid fa-circle-play text-brandEmerald ml-1.5"></i>درس تفاعلي • ${lesson.duration}</span>
+                                <span>الدرس ${currentIndex + 1} من ${course.lessons.length}</span>
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-black leading-snug">${lesson.title}</h2>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">${lesson.notes}</p>
+
+                            <div class="pt-3 flex flex-wrap items-center gap-3">
+                                <button type="button" onclick="toggleLessonCompleted('${lesson.id}')"
+                                        class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2 ${
+                                            isCompleted
+                                                ? "bg-brandEmerald text-white shadow-md"
+                                                : "bg-white text-inkDark hover:bg-pastelCream"
+                                        }">
+                                    <i class="fa-solid ${isCompleted ? "fa-check-double" : "fa-check"}"></i>
+                                    <span>${isCompleted ? "مكتمل (انقر للتراجع)" : "تحديد الدرس كمكتمل"}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- أزرار الدرس السابق والتالي -->
+                        <div class="flex items-center justify-between gap-3 pt-2">
+                            <button type="button" ${prevLesson ? `onclick="openLesson('${course.id}', '${prevLesson.id}')"` : "disabled"}
+                                    class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-colors ${
+                                        prevLesson ? "bg-slate-100 hover:bg-slate-200 text-inkDark" : "bg-slate-50 text-slate-300 cursor-not-allowed"
+                                    }">
+                                <i class="fa-solid fa-arrow-right"></i>
+                                <span>الدرس السابق</span>
+                            </button>
+
+                            <button type="button" ${nextLesson ? `onclick="openLesson('${course.id}', '${nextLesson.id}')"` : "disabled"}
+                                    class="px-5 py-3 rounded-2xl text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-colors ${
+                                        nextLesson ? "bg-inkDark hover:bg-slate-800 text-white" : "bg-slate-100 text-slate-300 cursor-not-allowed"
+                                    }">
+                                <span>الدرس التالي</span>
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- قائمة الدروس الجانبية وتقدم الدورة (4 أعمدة) -->
+                    <aside class="lg:col-span-4 soft-card rounded-3xl p-5 space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between text-xs font-extrabold">
+                                <span class="text-inkDark">تقدم هذه الدورة</span>
+                                <span class="text-brandIndigo">${prog.percent}%</span>
+                            </div>
+                            <div class="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+                                <div class="h-full rounded-full ${course.barColor} transition-all duration-300" style="width: ${prog.percent}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-slate-100">
+                            <h3 class="text-sm font-black text-inkDark">قائمة الدروس</h3>
+                            ${course.lessons.map((item, idx) => {
+                                const isCurrent = item.id === lesson.id;
+                                const done = appState.completedLessonIds.includes(item.id);
+                                return `
+                                    <button type="button" onclick="openLesson('${course.id}', '${item.id}')"
+                                            class="w-full text-right p-3 rounded-2xl border transition-all flex items-center justify-between gap-2 ${
+                                                isCurrent
+                                                    ? "bg-pastelLavender border-pastelLavenderBorder text-inkDark font-extrabold"
+                                                    : "bg-slate-50/80 hover:bg-slate-100 border-slate-200/60 text-inkDark font-bold"
+                                            }">
+                                        <div class="flex items-center gap-2.5 min-w-0">
+                                            <span class="w-6 h-6 rounded-lg ${done ? "bg-brandEmerald text-white" : "bg-white text-inkMuted border border-slate-200"} flex items-center justify-center text-[11px] font-black shrink-0">
+                                                ${done ? '<i class="fa-solid fa-check"></i>' : (idx + 1)}
+                                            </span>
+                                            <span class="text-xs truncate">${item.title}</span>
+                                        </div>
+                                        <span class="text-[11px] text-inkMuted shrink-0">${item.duration}</span>
+                                    </button>
+                                `;
+                            }).join("")}
+                        </div>
+                    </aside>
+
+                </div>
+            `;
+        }
+
+        // 7. عرض لوحة تحكم الطالب
+        function renderDashboard() {
+            updateGlobalHeaderAndStats();
+
+            // مخطط الساعات المستهلكة (شهري)
+            const months = [
+                { label: "يناير", hrs: 42, active: false },
+                { label: "فبراير", hrs: 28, active: false },
+                { label: "مارس", hrs: 68, active: true },
+                { label: "أبريل", hrs: 54, active: false },
+                { label: "مايو", hrs: 34, active: false },
+            ];
+            const chartEl = document.getElementById("hoursBarChart");
+            chartEl.innerHTML = months.map(m => {
+                const heightPct = Math.min(100, Math.round((m.hrs / 75) * 100));
+                return `
+                    <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                        <span class="text-[10px] font-extrabold text-inkMuted">${m.hrs}س</span>
+                        <div class="w-full max-w-[34px] rounded-t-xl transition-all ${m.active ? "bg-brandCoral" : "bg-pastelCream border border-pastelCreamBorder"}" style="height: ${heightPct}%"></div>
+                        <span class="text-[11px] font-bold text-inkMuted">${m.label}</span>
+                    </div>
+                `;
+            }).join("");
+
+            // قائمة الدورات في لوحة التحكم (جارية / مكتملة)
+            const q = (document.getElementById("dashSearchInput").value || "").trim().toLowerCase();
+            const isCompletedTab = appState.dashCourseTab === "completed";
+            document.getElementById("dashTabOngoing").className = !isCompletedTab
+                ? "px-3.5 py-1.5 rounded-lg bg-white text-inkDark text-xs font-extrabold shadow-2xs"
+                : "px-3.5 py-1.5 rounded-lg text-inkMuted text-xs font-bold";
+            document.getElementById("dashTabCompleted").className = isCompletedTab
+                ? "px-3.5 py-1.5 rounded-lg bg-white text-inkDark text-xs font-extrabold shadow-2xs"
+                : "px-3.5 py-1.5 rounded-lg text-inkMuted text-xs font-bold";
+
+            const list = coursesData.filter(c => {
+                const prog = getCourseProgress(c);
+                const tabMatch = isCompletedTab ? prog.percent === 100 : prog.percent < 100;
+                const searchMatch = !q || c.title.toLowerCase().includes(q) || c.category.toLowerCase().includes(q);
+                return tabMatch && searchMatch;
+            });
+
+            const dashCoursesEl = document.getElementById("dashCoursesList");
+            if (list.length === 0) {
+                dashCoursesEl.innerHTML = `<p class="text-center text-xs font-bold text-inkMuted py-6">${isCompletedTab ? "لم تكمل أي دورة بنسبة 100% بعد — أكمل دروسك من صفحة مشاهدة الدروس!" : "لا توجد دورات جارية مطابقة للبحث."}</p>`;
+            } else {
+                dashCoursesEl.innerHTML = list.map(course => {
+                    const prog = getCourseProgress(course);
+                    return `
+                        <div onclick="openLesson('${course.id}', '${course.lessons[0].id}')" class="cursor-pointer rounded-2xl ${course.cardPastel} p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:opacity-95 transition-opacity">
+                            <div class="space-y-1">
+                                <div class="text-sm font-black text-inkDark">${course.title}</div>
+                                <div class="text-xs font-bold text-inkDark/70">${course.level} • ${prog.completed}/${prog.total} دروس مكتملة</div>
+                            </div>
+                            <div class="w-full sm:w-44 space-y-1">
+                                <div class="flex justify-between text-xs font-black text-inkDark">
+                                    <span>التقدم</span>
+                                    <span>${prog.percent}%</span>
+                                </div>
+                                <div class="w-full h-2.5 rounded-full bg-white/80 overflow-hidden">
+                                    <div class="h-full rounded-full ${course.barColor}" style="width: ${prog.percent}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
+
+            // التقويم الأسبوعي
+            const days = [
+                { d: "س", n: 21, active: false },
+                { d: "ح", n: 22, active: true },
+                { d: "ن", n: 23, active: false },
+                { d: "ث", n: 24, active: false },
+                { d: "ر", n: 25, active: false },
+                { d: "خ", n: 26, active: false },
+                { d: "ج", n: 27, active: false },
+            ];
+            document.getElementById("weeklyCalendarDays").innerHTML = days.map(item => `
+                <div class="py-1.5 rounded-xl ${item.active ? "bg-inkDark text-white font-black" : "text-inkMuted"}">
+                    <div class="text-[10px]">${item.d}</div>
+                    <div>${item.n}</div>
+                </div>
+            `).join("");
+
+            renderStudentTasks();
+        }
+
+        function setDashCourseTab(tab) {
+            appState.dashCourseTab = tab;
+            saveState();
+            renderDashboard();
+        }
+
+        function syncDashSearch(val) {
+            appState.courseSearch = val;
+            const catSearch = document.getElementById("coursesSearchInput");
+            if (catSearch) catSearch.value = val;
+            saveState();
+            renderDashboard();
+        }
+
+        function renderStudentTasks() {
+            const listEl = document.getElementById("studentTasksList");
+            const doneCount = appState.tasks.filter(t => t.done).length;
+            document.getElementById("tasksDoneCount").textContent = `${doneCount}/${appState.tasks.length}`;
+
+            listEl.innerHTML = appState.tasks.map(task => `
+                <label class="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/50 cursor-pointer transition-colors">
+                    <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleStudentTask('${task.id}')" class="mt-1 rounded accent-inkDark">
+                    <div class="min-w-0 flex-1">
+                        <div class="text-xs font-bold ${task.done ? "line-through text-inkMuted" : "text-inkDark"}">${task.title}</div>
+                        <div class="text-[10px] font-bold text-inkMuted">${task.tag}</div>
+                    </div>
+                </label>
+            `).join("");
+        }
+
+        function toggleStudentTask(taskId) {
+            const task = appState.tasks.find(t => t.id === taskId);
+            if (!task) return;
+            task.done = !task.done;
+            saveState();
+            renderStudentTasks();
+        }
+
+        function addStudentTask() {
+            const input = document.getElementById("newTaskInput");
+            const title = input.value.trim();
+            if (!title) return;
+            appState.tasks.unshift({
+                id: "task-" + Date.now(),
+                title,
+                tag: appState.student.track || "مهمة دراسية",
+                done: false
+            });
+            input.value = "";
+            saveState();
+            renderStudentTasks();
+            showToast("تمت إضافة المهمة إلى قائمتك!");
+        }
+
+        // 8. عرض صفحة التقدم الدراسي
+        function renderStudyProgress() {
+            const overall = getOverallProgress();
+            document.getElementById("progressPageOverallPct").textContent = `${overall.percent}%`;
+            document.getElementById("progressPageOverallBar").style.width = `${overall.percent}%`;
+
+            const grid = document.getElementById("progressCoursesGrid");
+            grid.innerHTML = coursesData.map(course => {
+                const prog = getCourseProgress(course);
+                return `
+                    <div class="soft-card rounded-3xl p-6 space-y-4">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <span class="px-3 py-1 rounded-xl ${course.cardPastel} text-inkDark text-xs font-extrabold">${course.category}</span>
+                                <h3 class="text-lg font-black text-inkDark mt-2">${course.title}</h3>
+                            </div>
+                            <span class="text-2xl font-black text-inkDark">${prog.percent}%</span>
+                        </div>
+
+                        <div class="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
+                            <div class="h-full rounded-full ${course.barColor} transition-all duration-300" style="width: ${prog.percent}%"></div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs font-bold text-inkMuted pt-1">
+                            <span>الدروس المكتملة: <strong class="text-inkDark">${prog.completed} / ${prog.total}</strong></span>
+                            <button type="button" onclick="openLesson('${course.id}', '${course.lessons[0].id}')" class="px-4 py-2 rounded-xl bg-inkDark hover:bg-slate-800 text-white text-xs font-extrabold transition-colors">
+                                متابعة الدورة ←
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function loginDemoStudent() {
+            appState.student = {
+                name: "سارة هيلتون",
+                email: "zara@elearning.edu",
+                track: "تصميم وتجربة المستخدم"
+            };
+            saveState();
+            showToast("تم تسجيل الدخول بحساب الطالب التجريبي: سارة هيلتون");
+            navigateTo("dashboard");
+        }
+
+        function renderCurrentRouteView() {
+            updateGlobalHeaderAndStats();
+            switch (appState.currentRoute) {
+                case "home":
+                    renderHome();
+                    break;
+                case "courses":
+                    renderCoursesCatalog();
+                    break;
+                case "course-details":
+                    renderCourseDetails();
+                    break;
+                case "lesson-viewer":
+                    renderLessonViewer();
+                    break;
+                case "dashboard":
+                    renderDashboard();
+                    break;
+                case "progress":
+                    renderStudyProgress();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("mobileNavBtn").addEventListener("click", () => {
+                document.getElementById("mobileNavPanel").classList.toggle("hidden");
+            });
+
+            const coursesSearch = document.getElementById("coursesSearchInput");
+            coursesSearch.value = appState.courseSearch || "";
+            coursesSearch.addEventListener("input", (e) => {
+                appState.courseSearch = e.target.value;
+                saveState();
+                renderCoursesCatalog();
+            });
+
+            document.getElementById("loginForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const email = document.getElementById("loginEmail").value.trim();
+                const derivedName = email.toLowerCase().includes("zara") || email.toLowerCase().includes("sara")
+                    ? "سارة هيلتون"
+                    : (email.split("@")[0] || "طالب تعلّم");
+                appState.student = {
+                    name: appState.student.email === email ? appState.student.name : derivedName,
+                    email,
+                    track: appState.student.track || "تصميم وتجربة المستخدم"
+                };
+                saveState();
+                showToast(`مرحباً ${appState.student.name}، تم تسجيل دخولك بنجاح!`);
+                navigateTo("dashboard");
+            });
+
+            document.getElementById("registerForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const name = document.getElementById("regName").value.trim();
+                const email = document.getElementById("regEmail").value.trim();
+                const track = document.getElementById("regTrack").value;
+                appState.student = { name, email, track };
+                saveState();
+                showToast(`تم إنشاء حسابك بنجاح يا ${name}!`);
+                navigateTo("dashboard");
+            });
+
+            document.getElementById("newTaskInput").addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    addStudentTask();
+                }
+            });
+
+            navigateTo(appState.currentRoute || "home");
+        });
+    </script>
+</body>
+</html>
